@@ -3,6 +3,9 @@ package com.example.demo.persistance.implementation;
 import com.example.demo.model.Category;
 import com.example.demo.model.Product;
 import com.example.demo.persistance.ProductDao;
+import com.example.demo.persistance.CategoryDao;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,15 +15,27 @@ import java.util.Map;
 
 @Component
 public class ProductDaoImpl implements ProductDao {
+
+    private final CategoryDao categoryDao;
+
+    @Autowired
+    public ProductDaoImpl(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
+
     @Override
     public List<Product> findAllProducts() {
-        Category category = new Category(3, "SmartTVs", "Televisores smart");
+        List<Category> categories = categoryDao.findAllCategory();
+
+        // Categoria ya creada para agregar como atributo al producto.
+        Category category = categories.isEmpty() ? null : categories.get(0);
+
         List<Product> products = new ArrayList<>();
         Map<String, String> specifications = new HashMap<>();
         specifications.put("pulgadas", "50''");
+
         products.add(new Product("SmartTv", "SmartTV", category,
-                "Samsung", 100000.00, "TV",
-   specifications));
+                "Samsung", 100000.00, "TV", specifications));
         return products;
     }
 }
