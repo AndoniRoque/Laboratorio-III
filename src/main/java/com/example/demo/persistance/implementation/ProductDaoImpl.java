@@ -17,6 +17,7 @@ import java.util.Map;
 public class ProductDaoImpl implements ProductDao {
 
     private final CategoryDao categoryDao;
+    List<Product> products = new ArrayList<>();
 
     @Autowired
     public ProductDaoImpl(CategoryDao categoryDao) {
@@ -30,12 +31,18 @@ public class ProductDaoImpl implements ProductDao {
         // Categoria ya creada para agregar como atributo al producto.
         Category category = categories.isEmpty() ? null : categories.get(0);
 
-        List<Product> products = new ArrayList<>();
+
         Map<String, String> specifications = new HashMap<>();
         specifications.put("pulgadas", "50''");
 
         products.add(new Product("SmartTv", "SmartTV", category,
                 "Samsung", 100000.00, "TV", specifications));
         return products;
+    }
+
+    @Override
+    public Product createProduct(Product product) {
+        products.add(product);
+        return product;
     }
 }
