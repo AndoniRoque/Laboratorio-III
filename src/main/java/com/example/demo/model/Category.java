@@ -45,4 +45,14 @@ public class Category {
     public void setProductList(ArrayList<Product> productList) {
         this.productList = productList;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", productList=" + productList +
+                '}';
+    }
 }

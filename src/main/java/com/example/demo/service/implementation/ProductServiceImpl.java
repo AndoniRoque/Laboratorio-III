@@ -42,4 +42,8 @@ public class ProductServiceImpl implements ProductService {
         return productDao.updateProduct(id, prod);
     }
 
+    @Override
+    public List<Product> getProductsByFilter(String name, String brand, String category_name) {
+        return productDao.getProductsByFilter(name, brand, category_name);
+    }
 }

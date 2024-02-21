@@ -16,26 +16,25 @@ import java.util.Map;
 @Component
 public class ProductDaoImpl implements ProductDao {
 
-    private final CategoryDao categoryDao;
-    ArrayList<Product> products = new ArrayList<>();
+    private CategoryDao categoryDao;
+    private List<Category> categories;
+    private Category category;
+    private List<Product> products;
 
     @Autowired
     public ProductDaoImpl(CategoryDao categoryDao) {
         this.categoryDao = categoryDao;
+        this.categories = categoryDao.findAllCategory();
+        this.category = categories.isEmpty() ? null : categories.get(0);
+
+        this.products = new ArrayList<>();
+        Map<String, String> specifications = new HashMap<>();
+        specifications.put("pulgadas", "50''");
+        products.add(new Product("SmartTv", "SmartTV", category, "Samsung", 100000.00, "TV", specifications));
     }
 
     @Override
     public List<Product> findAllProducts() {
-        List<Category> categories = categoryDao.findAllCategory();
-
-        // Categoria ya creada para agregar como atributo al producto.
-        Category category = categories.isEmpty() ? null : categories.get(0);
-
-        Map<String, String> specifications = new HashMap<>();
-        specifications.put("pulgadas", "50''");
-
-        products.add(new Product("SmartTv", "SmartTV", category,
-                "Samsung", 100000.00, "TV", specifications));
         return products;
     }
 
@@ -96,6 +95,45 @@ public class ProductDaoImpl implements ProductDao {
         }
         System.out.println("El producto no pudo ser actualizado correctamente, por favor inténtelo nuevamente");
         return prod;
+    }
+
+    @Override
+    public List<Product> getProductsByFilter(String name, String brand, String category_name){
+        // List of products to return  based on the filters provided.
+        List<Product> filteredProducts = new ArrayList<>();
+
+        // Create aux list of categories and a Category object
+        // Since Product has an attribute Category of the type category I need to check
+        // the name passed through the url with the Category.getName() method.
+        List<Category> allCategories = categoryDao.findAllCategory();
+        Category productCategory = null;
+
+        for (Category cat : allCategories) {
+            if(cat.getName().equals(category_name)){
+                productCategory = cat;
+            }
+        }
+
+        System.out.println("Lista de productos " + products );
+        for(Product product : products) {
+
+            System.out.println("Hola, entré al loop for.");
+
+            if ((name == null || product.getName().contains(name))) {
+                System.out.println("Entró porque el nombre matcheó");
+                if (brand == null || product.getBrand().contains(brand)) {
+                    System.out.println("Entró porque la marca matcheó");
+                    if (category_name == null || product.getCategory().getName().equals(category_name)) {
+                        System.out.println("End of the line");
+                        filteredProducts.add(product);
+                        System.out.println("Se encontró un producto y fue agregado exitosamente.");
+                    }
+                }
+            }
+
+
+        }
+        return filteredProducts;
     }
 
 }

@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Category;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/products")
@@ -40,5 +42,13 @@ public class ProductController {
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable int id, @RequestBody Product prod) {
         return productService.updateProduct(id, prod);
+    }
+
+    @GetMapping("/filter/")
+    public List<Product> getProductsByFilter(@RequestParam Map<String, String> params) {
+        String name = params.get("name");
+        String brand = params.get("brand");
+        String category_name = params.get("cat");
+        return productService.getProductsByFilter(name, brand, category_name);
     }
 }
