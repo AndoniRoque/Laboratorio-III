@@ -27,4 +27,18 @@ public class CategoryDaoImpl implements CategoryDao {
         return cat;
     }
 
+    @Override
+    public Category getCategoryById(int id){
+        for (Category category : categories) {
+            if(category.getId() == id) {
+                System.out.println(category.getId());
+                return category;
+            } else {
+                System.out.println("id de la categoria en la lista de categorias: " + category.getId());
+            }
+        }
+        System.out.println("Error, category not found for category id: " + id);
+        return null;
+    }
+
 }
