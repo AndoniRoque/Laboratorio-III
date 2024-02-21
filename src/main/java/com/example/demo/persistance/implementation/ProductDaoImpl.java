@@ -45,4 +45,16 @@ public class ProductDaoImpl implements ProductDao {
         products.add(product);
         return product;
     }
+
+    @Override
+    public Product getProductById(int id) {
+        for (Product product : products) {
+            if(product.getId() == id){
+                return product;
+            } else {
+                System.out.println("null");
+            }
+        }
+        return null;
+    }
 }
