@@ -16,16 +16,23 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public List<Category> findAllCategory() {
-        
-        
         categories.add(new Category(2, "Category 2", "Description 2"));
         return categories;
     }
 
     @Override
     public Category createCategory(Category cat) {
+        cat.setId(generateId());
         categories.add(cat);
         return cat;
+    }
+
+    private int generateId() {
+        if(categories.size() == 0) {
+            return 0;
+        } else {
+            return categories.get(categories.size() - 1).getId() + 1;
+        }
     }
 
     @Override
