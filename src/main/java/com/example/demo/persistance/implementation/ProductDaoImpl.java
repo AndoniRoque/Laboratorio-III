@@ -70,4 +70,23 @@ public class ProductDaoImpl implements ProductDao {
         return false;
     }
 
+    @Override
+    public Product updateProduct(int id, Product prod) {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                product.setName(prod.getName());
+                product.setDescription(prod.getDescription());
+                product.setCategory(prod.getCategory());
+                product.setBrand(prod.getBrand());
+                product.setList_price(prod.getList_price());
+                product.setType(prod.getType());
+                product.setSpecifications(prod.getSpecifications());
+                System.out.println("El producto fue actualizado correctamente");
+                return product;
+            }
+        }
+        System.out.println("El producto no pudo ser actualizado correctamente, por favor inténtelo nuevamente");
+        return prod;
+    }
+
 }

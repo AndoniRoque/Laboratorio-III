@@ -9,4 +9,5 @@ public interface ProductService {
     Product createProduct(Product product);
     Product getProductById(int id);
     Boolean deleteProduct(int id);
+    Product updateProduct(int id, Product prod);
 }
