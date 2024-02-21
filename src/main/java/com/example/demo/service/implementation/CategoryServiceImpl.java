@@ -36,5 +36,10 @@ public class CategoryServiceImpl implements CategoryService {
     public Boolean deleteCategory(int id){
         return categoryDao.deleteCategory(id);
     }
+
+    @Override 
+    public Category editCategory(int id, Category cat){
+        return categoryDao.editCategory(id, cat);
+    }
     
 }

@@ -9,4 +9,5 @@ public interface CategoryService {
     Category createCategory(Category cat);
     Category getCategoryById(int id);
     Boolean deleteCategory(int id);
+    Category editCategory(int id, Category cat);
 }

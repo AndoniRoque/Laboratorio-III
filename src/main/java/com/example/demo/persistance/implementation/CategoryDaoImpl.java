@@ -55,4 +55,18 @@ public class CategoryDaoImpl implements CategoryDao {
         return false;
     }
 
+    @Override
+    public Category editCategory(int id, Category cat) {
+        for (Category category : categories) {
+            if (category.getId() == id) {
+                category.setName(cat.getName());
+                category.setDescription(cat.getDescription());
+                System.out.println("Se actualizó la categoría correctamente");
+                return category;
+            }
+        }
+        System.out.println("No fue posible actualizar la categoría");
+        return cat;
+    }
+
 }
