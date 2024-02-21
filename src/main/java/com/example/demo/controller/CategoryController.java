@@ -48,4 +48,5 @@ public class CategoryController {
     public Category editCategory(@PathVariable int id, @RequestBody Category category){
         return categoryService.editCategory(id, category);
     }
+
 }
