@@ -5,13 +5,14 @@ import com.example.demo.persistance.CategoryDao;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class CategoryDaoImpl implements CategoryDao {
 
-    List<Category> categories = new ArrayList<>();
+    ArrayList<Category> categories = new ArrayList<>();
 
     @Override
     public List<Category> findAllCategory() {
@@ -39,6 +40,19 @@ public class CategoryDaoImpl implements CategoryDao {
         }
         System.out.println("Error, category not found for category id: " + id);
         return null;
+    }
+
+    @Override
+    public Boolean deleteCategory(int id){
+        for (Category category : categories) {
+            if (category.getId() == id){
+                categories.remove(category);
+                System.out.println("Se borró la categoría exitosamente.");
+                return true;
+            }
+        }
+        System.out.println("No se pudo borrar la categoría");
+        return false;
     }
 
 }

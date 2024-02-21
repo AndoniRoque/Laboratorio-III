@@ -31,7 +31,6 @@ public class ProductDaoImpl implements ProductDao {
         // Categoria ya creada para agregar como atributo al producto.
         Category category = categories.isEmpty() ? null : categories.get(0);
 
-
         Map<String, String> specifications = new HashMap<>();
         specifications.put("pulgadas", "50''");
 
@@ -57,4 +56,5 @@ public class ProductDaoImpl implements ProductDao {
         }
         return null;
     }
+    
 }
