@@ -17,7 +17,7 @@ import java.util.Map;
 public class ProductDaoImpl implements ProductDao {
 
     private final CategoryDao categoryDao;
-    List<Product> products = new ArrayList<>();
+    ArrayList<Product> products = new ArrayList<>();
 
     @Autowired
     public ProductDaoImpl(CategoryDao categoryDao) {
@@ -41,8 +41,17 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Product createProduct(Product product) {
+        product.setId(generateId());
         products.add(product);
         return product;
+    }
+
+    private int generateId() {
+        if(products.size() == 0) {
+            return 0;
+        } else {
+            return products.get(products.size() - 1).getId() + 1;
+        }
     }
 
     @Override
