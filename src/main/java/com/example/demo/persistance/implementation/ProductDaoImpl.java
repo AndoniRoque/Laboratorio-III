@@ -56,5 +56,18 @@ public class ProductDaoImpl implements ProductDao {
         }
         return null;
     }
-    
+
+    @Override
+    public Boolean deleteProduct(int id) {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                products.remove(product);
+                System.out.println("El producto fue borrado con éxito");
+                return true;
+            }
+        }
+        System.out.println("El producto no pudo ser borrado. Disculpe las molestias.");
+        return false;
+    }
+
 }
