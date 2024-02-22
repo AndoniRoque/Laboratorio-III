@@ -1,11 +1,13 @@
 package com.example.demo.service.implementation;
 
 import com.example.demo.model.Category;
+import com.example.demo.model.Product;
 import com.example.demo.persistance.CategoryDao;
 import com.example.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +42,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override 
     public Category editCategory(int id, Category cat){
         return categoryDao.editCategory(id, cat);
+    }
+
+    @Override
+    public ArrayList<Product> getCategoryProductsByBrand(String brand) {
+        return categoryDao.getCategoryProductsByBrand(brand);
     }
     
 }

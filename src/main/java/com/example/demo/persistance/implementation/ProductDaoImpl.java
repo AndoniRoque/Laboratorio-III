@@ -135,12 +135,13 @@ public class ProductDaoImpl implements ProductDao {
         System.out.println("brand " + brand);
         System.out.println("category_name " + category_name);
 
+
         System.out.println("Lista de productos " + products );
         for(Product product : products) {
 
             System.out.println("Hola, entré al loop for.");
 
-            if ((name == null || product.getName().contains(name))) {
+            if ((name == null || product.getName().equalsIgnoreCase(name))) {
                 System.out.println("Entró porque el nombre matcheó");
                 if (brand == null || product.getBrand().equalsIgnoreCase(brand)) {
                     System.out.println("Entró porque la marca matcheó");

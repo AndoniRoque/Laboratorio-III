@@ -1,6 +1,7 @@
 package com.example.demo.persistance.implementation;
 
 import com.example.demo.model.Category;
+import com.example.demo.model.Product;
 import com.example.demo.persistance.CategoryDao;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -74,6 +75,23 @@ public class CategoryDaoImpl implements CategoryDao {
         }
         System.out.println("No fue posible actualizar la categoría");
         return cat;
+    }
+
+    @Override
+    public ArrayList<Product> getCategoryProductsByBrand(String brand) {
+        ArrayList<Product> brandProducts = new ArrayList<>();
+
+        System.out.println(categories);
+        
+        for (Category category : categories) {
+            for (Product product : category.getProductList()) {
+                if(product.getBrand().equalsIgnoreCase(brand)) {
+                    brandProducts.add(product);
+                }
+            }
+        }
+
+        return brandProducts;
     }
 
 }
