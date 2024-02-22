@@ -20,6 +20,7 @@ public class ProductDaoImpl implements ProductDao {
     private List<Category> categories;
     private Category category;
     private List<Product> products;
+    private ArrayList<Product> categoryProducts;
 
     @Autowired
     public ProductDaoImpl(CategoryDao categoryDao) {
@@ -28,9 +29,10 @@ public class ProductDaoImpl implements ProductDao {
         this.category = categories.isEmpty() ? null : categories.get(0);
 
         this.products = new ArrayList<>();
-        Map<String, String> specifications = new HashMap<>();
-        specifications.put("pulgadas", "50''");
-        products.add(new Product("SmartTv", "SmartTV", category, "Samsung", 100000.00, "TV", specifications));
+        this.categoryProducts = new ArrayList<>();
+        // Map<String, String> specifications = new HashMap<>();
+        // specifications.put("pulgadas", "50''");
+        // products.add(new Product("SmartTv", "SmartTV", category, "Samsung", 100000.00, "TV", specifications));
     }
 
     @Override
@@ -43,10 +45,15 @@ public class ProductDaoImpl implements ProductDao {
         boolean categoryFound = false;
 
         for (Category category : categories) {
-            if(product.getCategory().getName().equals(category.getName())) {
-                product.setCategory(category);
+            System.out.println("Entró al loop de categorias");
+            System.out.println(product);
+            System.out.println(category);
+            if(product.getCategory().equalsIgnoreCase(category.getName())) {
+                System.out.println("cateogria del producto " + product.getCategory());
+                System.out.println("nombre de la categoria " + category.getName());
+                product.setId(generateId());
+                products.add(product);
                 categoryFound = true;
-                break;
             }
         }
 
@@ -55,8 +62,6 @@ public class ProductDaoImpl implements ProductDao {
             return null;
         }
 
-        product.setId(generateId());
-        products.add(product);
         return product;
     }
 
@@ -138,15 +143,13 @@ public class ProductDaoImpl implements ProductDao {
                 System.out.println("Entró porque el nombre matcheó");
                 if (brand == null || product.getBrand().contains(brand)) {
                     System.out.println("Entró porque la marca matcheó");
-                    if (category_name == null || product.getCategory().getName().equals(category_name)) {
+                    if (category_name == null || product.getCategory() == category_name) {
                         System.out.println("End of the line");
                         filteredProducts.add(product);
                         System.out.println("Se encontró un producto y fue agregado exitosamente.");
                     }
                 }
             }
-
-
         }
         return filteredProducts;
     }

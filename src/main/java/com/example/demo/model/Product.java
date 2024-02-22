@@ -7,18 +7,18 @@ public class Product {
     private int id;
     private String name;
     private String description;
-    private Category category;
+    private String category_name;
     private String brand;
     private double list_price;
     private String type;
     private Map<String, String> specifications;
 
     public Product(String name, String description,
-                   Category category, String brand, double list_price,
+        String category_name, String brand, double list_price,
                    String type, Map<String, String> specifications) {
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.category_name = category_name;
         this.brand = brand;
         this.list_price = list_price;
         this.type = type;
@@ -49,12 +49,12 @@ public class Product {
         this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getCategory() {
+        return category_name;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(String category_name) {
+        this.category_name = category_name;
     }
 
     public String getBrand() {
@@ -95,7 +95,7 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", category=" + category +
+                ", category=" + category_name +
                 ", brand='" + brand + '\'' +
                 ", list_price=" + list_price +
                 ", type='" + type + '\'' +
