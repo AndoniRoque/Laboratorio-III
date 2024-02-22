@@ -16,7 +16,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public List<Category> findAllCategory() {
-        categories.add(new Category(2, "Category 2", "Description 2"));
+        // if categories empty return message
         return categories;
     }
 

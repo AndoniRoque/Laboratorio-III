@@ -40,6 +40,21 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Product createProduct(Product product) {
+        boolean categoryFound = false;
+
+        for (Category category : categories) {
+            if(product.getCategory().getName().equals(category.getName())) {
+                product.setCategory(category);
+                categoryFound = true;
+                break;
+            }
+        }
+
+        if(!categoryFound) {
+            System.out.println("No existe esa categoría. Por favor, cree una categoria antes de crear un producto nuevo");
+            return null;
+        }
+
         product.setId(generateId());
         products.add(product);
         return product;
