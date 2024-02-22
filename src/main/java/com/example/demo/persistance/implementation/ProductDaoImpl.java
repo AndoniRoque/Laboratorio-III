@@ -24,7 +24,11 @@ public class ProductDaoImpl implements ProductDao {
     @Autowired
     public ProductDaoImpl(CategoryDao categoryDao) {
         this.categoryDao = categoryDao;
+
+        // Create a list of all the categories.
         this.categories = categoryDao.findAllCategory();
+
+        // Throw exception here for when a Product wants to be created before creating a category.
         this.category = categories.isEmpty() ? null : categories.get(0);
 
         this.products = new ArrayList<>();
@@ -130,8 +134,6 @@ public class ProductDaoImpl implements ProductDao {
                     }
                 }
             }
-
-
         }
         return filteredProducts;
     }
