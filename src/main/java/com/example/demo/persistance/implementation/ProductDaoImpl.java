@@ -45,20 +45,17 @@ public class ProductDaoImpl implements ProductDao {
         boolean categoryFound = false;
 
         for (Category category : categories) {
-            System.out.println("Entró al loop de categorias");
-            System.out.println(product);
-            System.out.println(category);
             if(product.getCategory().equalsIgnoreCase(category.getName())) {
-                System.out.println("cateogria del producto " + product.getCategory());
-                System.out.println("nombre de la categoria " + category.getName());
                 product.setId(generateId());
                 products.add(product);
+                categoryProducts.add(product);
                 categoryFound = true;
+                category.setProductList(categoryProducts);
             }
         }
 
         if(!categoryFound) {
-            System.out.println("No existe esa categoría. Por favor, cree una categoria antes de crear un producto nuevo");
+            System.out.println("No existe esa categoría. Por favor, cree una categoría antes de crear un producto nuevo");
             return null;
         }
 
