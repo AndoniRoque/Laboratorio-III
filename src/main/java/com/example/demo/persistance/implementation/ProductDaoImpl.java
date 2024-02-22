@@ -20,6 +20,7 @@ public class ProductDaoImpl implements ProductDao {
     private List<Category> categories;
     private Category category;
     private List<Product> products;
+    private ArrayList<Product> categoryProducts;
 
     @Autowired
     public ProductDaoImpl(CategoryDao categoryDao) {
@@ -32,9 +33,10 @@ public class ProductDaoImpl implements ProductDao {
         this.category = categories.isEmpty() ? null : categories.get(0);
 
         this.products = new ArrayList<>();
-        Map<String, String> specifications = new HashMap<>();
-        specifications.put("pulgadas", "50''");
-        products.add(new Product("SmartTv", "SmartTV", category, "Samsung", 100000.00, "TV", specifications));
+        this.categoryProducts = new ArrayList<>();
+        // Map<String, String> specifications = new HashMap<>();
+        // specifications.put("pulgadas", "50''");
+        // products.add(new Product("SmartTv", "SmartTV", category, "Samsung", 100000.00, "TV", specifications));
     }
 
     @Override
@@ -44,8 +46,23 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Product createProduct(Product product) {
-        product.setId(generateId());
-        products.add(product);
+        boolean categoryFound = false;
+
+        for (Category category : categories) {
+            if(product.getCategory().equalsIgnoreCase(category.getName())) {
+                product.setId(generateId());
+                products.add(product);
+                categoryProducts.add(product);
+                categoryFound = true;
+                category.setProductList(categoryProducts);
+            }
+        }
+
+        if(!categoryFound) {
+            System.out.println("No existe esa categoría. Por favor, cree una categoría antes de crear un producto nuevo");
+            return null;
+        }
+
         return product;
     }
 
@@ -118,16 +135,21 @@ public class ProductDaoImpl implements ProductDao {
             }
         }
 
+        System.out.println("name " + name);
+        System.out.println("brand " + brand);
+        System.out.println("category_name " + category_name);
+
+
         System.out.println("Lista de productos " + products );
         for(Product product : products) {
 
             System.out.println("Hola, entré al loop for.");
 
-            if ((name == null || product.getName().contains(name))) {
+            if ((name == null || product.getName().equalsIgnoreCase(name))) {
                 System.out.println("Entró porque el nombre matcheó");
-                if (brand == null || product.getBrand().contains(brand)) {
+                if (brand == null || product.getBrand().equalsIgnoreCase(brand)) {
                     System.out.println("Entró porque la marca matcheó");
-                    if (category_name == null || product.getCategory().getName().equals(category_name)) {
+                    if (category_name == null || product.getCategory().equalsIgnoreCase(category_name)) {
                         System.out.println("End of the line");
                         filteredProducts.add(product);
                         System.out.println("Se encontró un producto y fue agregado exitosamente.");

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Category;
+import com.example.demo.model.Product;
 import com.example.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/categories")
@@ -48,5 +51,12 @@ public class CategoryController {
     public Category editCategory(@PathVariable int id, @RequestBody Category category){
         return categoryService.editCategory(id, category);
     }
+
+    @GetMapping("/")
+    public List<Product> getCategoryProductsByBrand(@RequestParam Map<String, String> params) {
+        String brand = params.get("brand");
+        return categoryService.getCategoryProductsByBrand(brand);
+    }
+
 
 }
