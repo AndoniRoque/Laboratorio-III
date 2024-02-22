@@ -10,5 +10,5 @@ public interface ProductDao {
     Product getProductById(int id);
     Boolean deleteProduct(int id);
     Product updateProduct(int id, Product prod);
-    List<Product> getProductsByFilter(String name, String brand, String category_name);
+    List<Product> getProductsByFilter(String name, String  brand, String category_name);
 }

@@ -13,4 +13,5 @@ public interface CategoryService {
     Boolean deleteCategory(int id);
     Category editCategory(int id, Category cat);
     ArrayList<Product> getCategoryProductsByBrand(String brand);
+    ArrayList<Category> orderCategoryProductsByPrice(String order_price);
 }

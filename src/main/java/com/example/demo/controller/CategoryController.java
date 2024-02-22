@@ -58,5 +58,10 @@ public class CategoryController {
         return categoryService.getCategoryProductsByBrand(brand);
     }
 
+    @GetMapping("/order")
+    public List<Category> orderCategoryProductsByPrice(@RequestParam Map<String, String> params) {
+        String order_price = params.get("order_price");
+        return categoryService.orderCategoryProductsByPrice(order_price);
+    }
 
 }

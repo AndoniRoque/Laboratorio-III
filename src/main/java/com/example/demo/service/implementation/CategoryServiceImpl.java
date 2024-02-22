@@ -48,5 +48,9 @@ public class CategoryServiceImpl implements CategoryService {
     public ArrayList<Product> getCategoryProductsByBrand(String brand) {
         return categoryDao.getCategoryProductsByBrand(brand);
     }
-    
+
+    @Override
+    public ArrayList<Category> orderCategoryProductsByPrice(String order_price) {
+        return categoryDao.orderCategoryProductsByPrice(order_price);
+    }
 }

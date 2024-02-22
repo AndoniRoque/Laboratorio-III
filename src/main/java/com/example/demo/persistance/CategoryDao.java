@@ -13,4 +13,5 @@ public interface CategoryDao {
     Boolean deleteCategory(int id);
     Category editCategory(int id, Category cat);
     ArrayList<Product> getCategoryProductsByBrand(String band);
+    ArrayList<Category> orderCategoryProductsByPrice(String order_price);
 }

@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class CategoryDaoImpl implements CategoryDao {
@@ -92,6 +91,20 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
         return brandProducts;
+    }
+
+    @Override
+    public ArrayList<Category> orderCategoryProductsByPrice(String order_price){
+        System.out.println(order_price);
+        for (Category category : categories ) {
+            if(order_price.equalsIgnoreCase("asc")) {
+                Collections.sort(category.getProductList(), Comparator.comparing(Product::getList_price));
+            } else if( order_price.equalsIgnoreCase("desc")) {
+                Collections.sort(category.getProductList(), Comparator.comparing(Product::getList_price));
+                Collections.reverse(categories);
+            }
+        }
+        return categories;
     }
 
 }
