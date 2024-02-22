@@ -131,6 +131,10 @@ public class ProductDaoImpl implements ProductDao {
             }
         }
 
+        System.out.println("name " + name);
+        System.out.println("brand " + brand);
+        System.out.println("category_name " + category_name);
+
         System.out.println("Lista de productos " + products );
         for(Product product : products) {
 
@@ -138,9 +142,9 @@ public class ProductDaoImpl implements ProductDao {
 
             if ((name == null || product.getName().contains(name))) {
                 System.out.println("Entró porque el nombre matcheó");
-                if (brand == null || product.getBrand().contains(brand)) {
+                if (brand == null || product.getBrand().equalsIgnoreCase(brand)) {
                     System.out.println("Entró porque la marca matcheó");
-                    if (category_name == null || product.getCategory() == category_name) {
+                    if (category_name == null || product.getCategory().equalsIgnoreCase(category_name)) {
                         System.out.println("End of the line");
                         filteredProducts.add(product);
                         System.out.println("Se encontró un producto y fue agregado exitosamente.");
