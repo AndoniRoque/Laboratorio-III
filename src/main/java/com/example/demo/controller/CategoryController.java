@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class CategoryController {
         return categoryService.editCategory(id, category);
     }
 
-    @GetMapping("/")
+    @GetMapping("/brand")
     public List<Product> getCategoryProductsByBrand(@RequestParam Map<String, String> params) {
         String brand = params.get("brand");
         return categoryService.getCategoryProductsByBrand(brand);
@@ -65,10 +66,10 @@ public class CategoryController {
     }
 
     @GetMapping("/price")
-    public List<Category> orderCategoryProducsByPriceRange(@RequestParam Map<String, String> params) {
+    public List<Category> orderCategoryProductsByPriceRange(@RequestParam Map<String, String> params) {
         String price_min = params.get("price_min");
         String price_max = params.get("price_max");
-        return categoryService.orderCategoryProducsByPriceRange(price_min, price_max);
+        return categoryService.orderCategoryProductsByPriceRange(price_min, price_max);
     }
 
 }

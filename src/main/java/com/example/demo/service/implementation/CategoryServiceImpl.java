@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ArrayList<Category> orderCategoryProducsByPriceRange(String price_min, String price_max) {
-        return categoryDao.orderCategoryProducsByPriceRange(price_min, price_max);
+    public ArrayList<Category> orderCategoryProductsByPriceRange(String price_min, String price_max) {
+        return categoryDao.orderCategoryProductsByPriceRange(price_min, price_max);
     }
 }

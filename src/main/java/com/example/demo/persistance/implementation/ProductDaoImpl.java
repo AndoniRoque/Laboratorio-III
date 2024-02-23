@@ -39,6 +39,8 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Product> findAllProducts() {
+
+        // Return http response
         return products;
     }
 
@@ -55,18 +57,25 @@ public class ProductDaoImpl implements ProductDao {
             }
         }
 
+        //throw exception
         if(!categoryFound) {
-            System.out.println("No existe esa categoría. Por favor, cree una categoría antes de crear un producto nuevo");
+            System.out.println("The Category doesn't exists. Please create a new category before creating a product for that category.");
+
+            // return http response
             return null;
         }
 
+        // return http response
         return product;
     }
 
     private int generateId() {
+        //throw exception
         if(products.size() == 0) {
             return 0;
         } else {
+
+            //http response
             return products.get(products.size() - 1).getId() + 1;
         }
     }
@@ -75,11 +84,11 @@ public class ProductDaoImpl implements ProductDao {
     public Product getProductById(int id) {
         for (Product product : products) {
             if(product.getId() == id){
+                // http response
                 return product;
-            } else {
-                System.out.println("null");
             }
         }
+        // http response
         return null;
     }
 
@@ -88,11 +97,14 @@ public class ProductDaoImpl implements ProductDao {
         for (Product product : products) {
             if (product.getId() == id) {
                 products.remove(product);
-                System.out.println("El producto fue borrado con éxito");
+                System.out.println("The product was deleted successfuly.");
+                // return http response
                 return true;
             }
         }
-        System.out.println("El producto no pudo ser borrado. Disculpe las molestias.");
+        //throw exception for product not found.
+        System.out.println("The product couldn't be deleted.");
+        // return http response
         return false;
     }
 
@@ -107,11 +119,15 @@ public class ProductDaoImpl implements ProductDao {
                 product.setList_price(prod.getList_price());
                 product.setType(prod.getType());
                 product.setSpecifications(prod.getSpecifications());
-                System.out.println("El producto fue actualizado correctamente");
+                System.out.println("The product was updated successfuly.");
+
+                //return http response.
                 return product;
             }
         }
-        System.out.println("El producto no pudo ser actualizado correctamente, por favor inténtelo nuevamente");
+        //throw exception for error.
+        System.out.println("The product couldn't be updated, please try again.");
+        // return http response.
         return prod;
     }
 
@@ -120,28 +136,13 @@ public class ProductDaoImpl implements ProductDao {
         // List of products to return  based on the filters provided.
         List<Product> filteredProducts = new ArrayList<>();
 
-        // Create aux list of categories and a Category object
-        // Since Product has an attribute Category of the type category I need to check
-        // the name passed through the url with the Category.getName() method.
-        List<Category> allCategories = categoryDao.findAllCategory();
-        Category productCategory = null;
-
-        for (Category cat : allCategories) {
-            if(cat.getName().equals(category_name)){
-                productCategory = cat;
-            }
-        }
-
         System.out.println("name " + name);
         System.out.println("brand " + brand);
         System.out.println("category_name " + category_name);
-
-
         System.out.println("Lista de productos " + products );
+
         for(Product product : products) {
-
             System.out.println("Hola, entré al loop for.");
-
             if ((name == null || product.getName().equalsIgnoreCase(name))) {
                 System.out.println("Entró porque el nombre matcheó");
                 if (brand == null || product.getBrand().equalsIgnoreCase(brand)) {
@@ -149,12 +150,17 @@ public class ProductDaoImpl implements ProductDao {
                     if (category_name == null || product.getCategory().equalsIgnoreCase(category_name)) {
                         System.out.println("End of the line");
                         filteredProducts.add(product);
-                        System.out.println("Se encontró un producto y fue agregado exitosamente.");
+                        System.out.println("Product found and added successfuly.");
+                        //return http reponse
+                        return filteredProducts;
                     }
                 }
             }
         }
+
+        //return http response for empty matches.
         return filteredProducts;
+        
     }
 
 }

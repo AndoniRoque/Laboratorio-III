@@ -14,5 +14,5 @@ public interface CategoryService {
     Category editCategory(int id, Category cat);
     ArrayList<Product> getCategoryProductsByBrand(String brand);
     ArrayList<Category> orderCategoryProductsByPrice(String order_price);
-    ArrayList<Category> orderCategoryProducsByPriceRange(String price_min, String price_max);
+    ArrayList<Category> orderCategoryProductsByPriceRange(String price_min, String price_max);
 }

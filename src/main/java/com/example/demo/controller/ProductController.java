@@ -43,7 +43,7 @@ public class ProductController {
         return productService.updateProduct(id, prod);
     }
 
-    @GetMapping("/filter/")
+    @GetMapping("/filter")
     public List<Product> getProductsByFilter(@RequestParam Map<String, String> params) {
         String name = params.get("name");
         String brand = params.get("brand");

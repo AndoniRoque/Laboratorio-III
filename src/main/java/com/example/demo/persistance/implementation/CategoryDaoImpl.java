@@ -4,9 +4,6 @@ import com.example.demo.model.Category;
 import com.example.demo.model.Product;
 import com.example.demo.persistance.CategoryDao;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Component
@@ -17,14 +14,16 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public List<Category> findAllCategory() {
         // if categories empty return message
+        // return http response
         return categories;
     }
 
     @Override
-    public Category createCategory(Category cat) {
-        cat.setId(generateId());
-        categories.add(cat);
-        return cat;
+    public Category createCategory(Category newCategory) {
+        newCategory.setId(generateId());
+        categories.add(newCategory);
+        // return http response
+        return newCategory;
     }
 
     private int generateId() {
@@ -40,12 +39,14 @@ public class CategoryDaoImpl implements CategoryDao {
         for (Category category : categories) {
             if(category.getId() == id) {
                 System.out.println(category.getId());
+
+                // return http response
                 return category;
-            } else {
-                System.out.println("id de la categoria en la lista de categorias: " + category.getId());
             }
         }
-        System.out.println("Error, category not found for category id: " + id);
+        System.out.println("Error, category not found for category id: " + id + ".");
+
+        // return http response
         return null;
     }
 
@@ -54,11 +55,15 @@ public class CategoryDaoImpl implements CategoryDao {
         for (Category category : categories) {
             if (category.getId() == id){
                 categories.remove(category);
-                System.out.println("Se borró la categoría exitosamente.");
+                System.out.println("The Category id " + id + " was successfuly deleted.");
+
+                // return http response
                 return true;
             }
         }
-        System.out.println("No se pudo borrar la categoría");
+        System.out.println("Category not found.");
+
+        // return http response
         return false;
     }
 
@@ -68,16 +73,22 @@ public class CategoryDaoImpl implements CategoryDao {
             if (category.getId() == id) {
                 category.setName(cat.getName());
                 category.setDescription(cat.getDescription());
-                System.out.println("Se actualizó la categoría correctamente");
+                System.out.println("The category was successfuly updapted.");
+
+                // return http response
                 return category;
             }
         }
-        System.out.println("No fue posible actualizar la categoría");
+        // return http response
+        System.out.println("Category not found.");
+       
         return cat;
     }
 
     @Override
     public ArrayList<Product> getCategoryProductsByBrand(String brand) {
+
+        // New list to return as products with certain brand
         ArrayList<Product> brandProducts = new ArrayList<>();
 
         System.out.println(categories);
@@ -90,41 +101,57 @@ public class CategoryDaoImpl implements CategoryDao {
             }
         }
 
+        // return http response
         return brandProducts;
+
+        // Error for no brands found.
     }
 
     @Override
     public ArrayList<Category> orderCategoryProductsByPrice(String order_price){
+        
         ArrayList<Category> ordered_list = new ArrayList<>();
         System.out.println(order_price);
+
         if(categories.size() == 0) {
-            System.out.println("La lista de categorías esta vacía, por favor cree categorías nuevas antes de querer ordenarlas.");
+            System.out.println("The list of categories is empty, please create new categories before ordering them");
         } else {
             for (Category category : categories ) {
+
+                // List of producs for each category. 
                 ArrayList<Product> productsList = new ArrayList<>(category.getProductList());
+
                 if(order_price.equalsIgnoreCase("asc")) {
                     productsList.sort(Comparator.comparing(Product::getList_price));
                 } else if( order_price.equalsIgnoreCase("desc")) {
                     productsList.sort(Comparator.comparing(Product::getList_price).reversed());
                 }
+
+                // New category to add the ordered products to, just to not mess with the original categories list.
                 Category orderedCategory = new Category(category.getId(), category.getName(), category.getDescription());
                 orderedCategory.setProductList(productsList);
                 ordered_list.add(orderedCategory);
             }
         }
+
+        // return http response
         return ordered_list;
+
+        // Error for no producst on a category or no categories found.
     }
 
     @Override
-    public ArrayList<Category> orderCategoryProducsByPriceRange(String price_min, String price_max) {
+    public ArrayList<Category> orderCategoryProductsByPriceRange(String price_min, String price_max) {
         double min = Double.parseDouble(price_min);
         double max = Double.parseDouble(price_max);
 
+        // Results list as to not mess with the original list of categories.
         ArrayList<Category> results = new ArrayList<>();
+
         System.out.println("Min: "+ min +". Max: " + max);
 
         if (categories.size() == 0){
-            System.out.println("No existen categorías creadas, por favor cree una nueva categoría.");
+            System.out.println("There are no created categories, please create new categories.");
         } else {
             for (Category category : categories) {
                 ArrayList<Product> rangeProductsList = new ArrayList<>();
@@ -138,7 +165,10 @@ public class CategoryDaoImpl implements CategoryDao {
                 results.add(priceRangeCategory);
             }
         }
+
+        // return http response
         return results;
+        // Error for no products found in a category, or no categories
     }
 
 
