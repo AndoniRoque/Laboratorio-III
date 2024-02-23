@@ -13,16 +13,24 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public List<Category> findAllCategory() {
-        // if categories empty return message
-        // return http response
+        if(categories.isEmpty()) {
+            return Collections.emptyList();
+        }
         return categories;
     }
 
     @Override
     public Category createCategory(Category newCategory) {
-        newCategory.setId(generateId());
-        categories.add(newCategory);
-        // return http response
+        for (Category category : categories) {
+            if(newCategory.getName().equalsIgnoreCase(category.getName())){
+                System.out.println("Category " + newCategory.getName() + " already exists.");
+                return category;
+            } else {
+                newCategory.setId(generateId());
+                categories.add(newCategory);
+                System.out.println("Category created successfully.");
+            }
+        }
         return newCategory;
     }
 
@@ -36,75 +44,84 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public Category getCategoryById(int id){
-        for (Category category : categories) {
-            if(category.getId() == id) {
-                System.out.println(category.getId());
-
-                // return http response
-                return category;
+        if(categories.size() == 0) {
+            System.out.println("The list of categories is empty, please create new categories before ordering them");
+        } else {
+            for (Category category : categories) {
+                if (category.getId() == id) {
+                    System.out.println(category.getId());
+                    return category;
+                } else {
+                    System.out.println("Error, category not found for category id: " + id + ".");
+                }
             }
         }
-        System.out.println("Error, category not found for category id: " + id + ".");
-
-        // return http response
         return null;
     }
 
     @Override
     public Boolean deleteCategory(int id){
-        for (Category category : categories) {
-            if (category.getId() == id){
-                categories.remove(category);
-                System.out.println("The Category id " + id + " was successfuly deleted.");
-
-                // return http response
-                return true;
+        if(categories.size() == 0) {
+            System.out.println("The list of categories is empty, please create new categories before ordering them");
+        } else {
+            for (Category category : categories) {
+                if (category.getId() == id) {
+                    categories.remove(category);
+                    System.out.println("The Category id " + id + " was successfuly deleted.");
+                    return true;
+                } else {
+                    System.out.println("Category not found.");
+                    return false;
+                }
             }
         }
-        System.out.println("Category not found.");
-
-        // return http response
         return false;
     }
 
     @Override
     public Category editCategory(int id, Category cat) {
-        for (Category category : categories) {
-            if (category.getId() == id) {
-                category.setName(cat.getName());
-                category.setDescription(cat.getDescription());
-                System.out.println("The category was successfuly updapted.");
-
-                // return http response
-                return category;
+        if(categories.size() == 0) {
+            System.out.println("The list of categories is empty, please create new categories before ordering them");
+        } else {
+            for (Category category : categories) {
+                if (category.getId() == id) {
+                    category.setName(cat.getName());
+                    category.setDescription(cat.getDescription());
+                    System.out.println("The category was successfuly updapted.");
+                    return category;
+                } else {
+                    System.out.println("Category not found.");
+                    return null;
+                }
             }
         }
-        // return http response
-        System.out.println("Category not found.");
-       
-        return cat;
+        return null;
     }
 
     @Override
     public ArrayList<Product> getCategoryProductsByBrand(String brand) {
-
-        // New list to return as products with certain brand
+        // New list to return as products with certain brand.
         ArrayList<Product> brandProducts = new ArrayList<>();
 
         System.out.println(categories);
-        
-        for (Category category : categories) {
-            for (Product product : category.getProductList()) {
-                if(product.getBrand().equalsIgnoreCase(brand)) {
-                    brandProducts.add(product);
+
+        if(categories.size() == 0) {
+            System.out.println("The list of categories is empty, please create new categories before ordering them");
+        } else {
+            for (Category category : categories) {
+                for (Product product : category.getProductList()) {
+                    if (product.getBrand().equalsIgnoreCase(brand)) {
+                        System.out.println("Products with brand: " + brand + " found.");
+                        brandProducts.add(product);
+                        return brandProducts;
+                    } else {
+                        System.out.println("No products with brand: " + brand + " were found");
+                        return null;
+                    }
                 }
             }
         }
-
-        // return http response
-        return brandProducts;
-
-        // Error for no brands found.
+        return null;
     }
 
     @Override
@@ -117,27 +134,27 @@ public class CategoryDaoImpl implements CategoryDao {
             System.out.println("The list of categories is empty, please create new categories before ordering them");
         } else {
             for (Category category : categories ) {
-
                 // List of producs for each category. 
                 ArrayList<Product> productsList = new ArrayList<>(category.getProductList());
 
-                if(order_price.equalsIgnoreCase("asc")) {
-                    productsList.sort(Comparator.comparing(Product::getList_price));
-                } else if( order_price.equalsIgnoreCase("desc")) {
-                    productsList.sort(Comparator.comparing(Product::getList_price).reversed());
+                if(productsList.isEmpty()) {
+                    System.out.println("There are no products to order in this category.");
+                } else {
+                    if(order_price.equalsIgnoreCase("asc")) {
+                        productsList.sort(Comparator.comparing(Product::getList_price));
+                    } else if( order_price.equalsIgnoreCase("desc")) {
+                        productsList.sort(Comparator.comparing(Product::getList_price).reversed());
+                    }
+                    // New category to add the ordered products to, just to not mess with the original categories list.
+                    Category orderedCategory = new Category(category.getId(), category.getName(), category.getDescription());
+                    orderedCategory.setProductList(productsList);
+                    ordered_list.add(orderedCategory);
+                    System.out.println("Successfully ordered categoryes in " + order_price + "ending order");
+                    return ordered_list;
                 }
-
-                // New category to add the ordered products to, just to not mess with the original categories list.
-                Category orderedCategory = new Category(category.getId(), category.getName(), category.getDescription());
-                orderedCategory.setProductList(productsList);
-                ordered_list.add(orderedCategory);
             }
         }
-
-        // return http response
-        return ordered_list;
-
-        // Error for no producst on a category or no categories found.
+        return null;
     }
 
     @Override
@@ -163,13 +180,10 @@ public class CategoryDaoImpl implements CategoryDao {
                 Category priceRangeCategory = new Category(category.getId(), category.getName(), category.getDescription());
                 priceRangeCategory.setProductList(rangeProductsList);
                 results.add(priceRangeCategory);
+                System.out.println("This are the products in the range price of " + min + " and " + max + ".");
+                return results;
             }
         }
-
-        // return http response
-        return results;
-        // Error for no products found in a category, or no categories
+        return null;
     }
-
-
 }
