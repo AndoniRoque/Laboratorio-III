@@ -20,7 +20,6 @@ public class ProductDaoImpl implements ProductDao {
     private List<Category> categories;
     private Category category;
     private List<Product> products;
-    private ArrayList<Product> categoryProducts;
 
     @Autowired
     public ProductDaoImpl(CategoryDao categoryDao) {
@@ -33,7 +32,6 @@ public class ProductDaoImpl implements ProductDao {
         this.category = categories.isEmpty() ? null : categories.get(0);
 
         this.products = new ArrayList<>();
-        this.categoryProducts = new ArrayList<>();
         // Map<String, String> specifications = new HashMap<>();
         // specifications.put("pulgadas", "50''");
         // products.add(new Product("SmartTv", "SmartTV", category, "Samsung", 100000.00, "TV", specifications));
@@ -52,9 +50,8 @@ public class ProductDaoImpl implements ProductDao {
             if(product.getCategory().equalsIgnoreCase(category.getName())) {
                 product.setId(generateId());
                 products.add(product);
-                categoryProducts.add(product);
+                category.getProductList().add(product);
                 categoryFound = true;
-                category.setProductList(categoryProducts);
             }
         }
 

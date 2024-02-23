@@ -95,16 +95,24 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public ArrayList<Category> orderCategoryProductsByPrice(String order_price){
+        ArrayList<Category> ordered_list = new ArrayList<>();
         System.out.println(order_price);
-        for (Category category : categories ) {
-            if(order_price.equalsIgnoreCase("asc")) {
-                Collections.sort(category.getProductList(), Comparator.comparing(Product::getList_price));
-            } else if( order_price.equalsIgnoreCase("desc")) {
-                Collections.sort(category.getProductList(), Comparator.comparing(Product::getList_price));
-                Collections.reverse(categories);
+        if(categories.size() == 0) {
+            System.out.println("La lista de categorías esta vacía, por favor cree categorías nuevas antes de querer ordenarlas.");
+        } else {
+            for (Category category : categories ) {
+                ArrayList<Product> productsList = new ArrayList<>(category.getProductList());
+                if(order_price.equalsIgnoreCase("asc")) {
+                    productsList.sort(Comparator.comparing(Product::getList_price));
+                } else if( order_price.equalsIgnoreCase("desc")) {
+                    productsList.sort(Comparator.comparing(Product::getList_price).reversed());
+                }
+                Category orderedCategory = new Category(category.getId(), category.getName(), category.getDescription());
+                orderedCategory.setProductList(productsList);
+                ordered_list.add(orderedCategory);
             }
         }
-        return categories;
+        return ordered_list;
     }
 
 }
