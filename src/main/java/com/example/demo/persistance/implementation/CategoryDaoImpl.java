@@ -115,4 +115,31 @@ public class CategoryDaoImpl implements CategoryDao {
         return ordered_list;
     }
 
+    @Override
+    public ArrayList<Category> orderCategoryProducsByPriceRange(String price_min, String price_max) {
+        double min = Double.parseDouble(price_min);
+        double max = Double.parseDouble(price_max);
+
+        ArrayList<Category> results = new ArrayList<>();
+        System.out.println("Min: "+ min +". Max: " + max);
+
+        if (categories.size() == 0){
+            System.out.println("No existen categorías creadas, por favor cree una nueva categoría.");
+        } else {
+            for (Category category : categories) {
+                ArrayList<Product> rangeProductsList = new ArrayList<>();
+                for (Product product : category.getProductList()) {
+                    if(product.getList_price() >= min && product.getList_price() <= max) {
+                        rangeProductsList.add(product);
+                    }
+                }
+                Category priceRangeCategory = new Category(category.getId(), category.getName(), category.getDescription());
+                priceRangeCategory.setProductList(rangeProductsList);
+                results.add(priceRangeCategory);
+            }
+        }
+        return results;
+    }
+
+
 }

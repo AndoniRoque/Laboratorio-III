@@ -64,4 +64,11 @@ public class CategoryController {
         return categoryService.orderCategoryProductsByPrice(order_price);
     }
 
+    @GetMapping("/price")
+    public List<Category> orderCategoryProducsByPriceRange(@RequestParam Map<String, String> params) {
+        String price_min = params.get("price_min");
+        String price_max = params.get("price_max");
+        return categoryService.orderCategoryProducsByPriceRange(price_min, price_max);
+    }
+
 }
