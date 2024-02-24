@@ -21,15 +21,20 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public Category createCategory(Category newCategory) {
+
+        boolean categoryFound = false;
+
         for (Category category : categories) {
             if(newCategory.getName().equalsIgnoreCase(category.getName())){
                 System.out.println("Category " + newCategory.getName() + " already exists.");
-                return category;
-            } else {
-                newCategory.setId(generateId());
-                categories.add(newCategory);
-                System.out.println("Category created successfully.");
+                categoryFound = true;
             }
+        }
+
+        if(!categoryFound) {
+            newCategory.setId(generateId());
+            categories.add(newCategory);
+            System.out.println("Category created successfully.");
         }
         return newCategory;
     }
