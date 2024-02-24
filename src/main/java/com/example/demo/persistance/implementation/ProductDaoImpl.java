@@ -23,16 +23,16 @@ public class ProductDaoImpl implements ProductDao {
     private List<Product> products;
 
     @Autowired
-    public ProductDaoImpl(CategoryDao categoryDao) {
+    public ProductDaoImpl(CategoryDao categoryDao) throws IllegalStateException {
         this.categoryDao = categoryDao;
 
         // Create a list of all the categories.
         this.categories = categoryDao.findAllCategory();
 
-        // Throw exception here for when a Product wants to be created before creating a category.
-        if (categories.isEmpty()){
-            throw new IllegalStateException("There are no categories created yet, please create a category before creating a new product.");
-        }
+//        // Throw exception here for when a Product wants to be created before creating a category.
+//        if (categories.isEmpty()){
+//            throw new IllegalStateException("There are no categories created yet, please create a category before creating a new product.");
+//        }
 
         this.category = categories.isEmpty() ? null : categories.get(0);
 
@@ -85,7 +85,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public Product getProductById(int id) throws NoProductsException {
         if(products.isEmpty()){
-            throw new NoProductsException("The product you are looking for doesn't exist, there are no products loaded yet.")
+            throw new NoProductsException("The product you are looking for doesn't exist, there are no products loaded yet.");
         } else {
             for (Product product : products) {
                 if(product.getId() == id){
@@ -100,7 +100,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public Boolean deleteProduct(int id) throws NoProductsException {
         if(products.isEmpty()){
-            throw new NoProductsException("The product you are looking for doesn't exist, there are no products loaded yet.")
+            throw new NoProductsException("The product you are looking for doesn't exist, there are no products loaded yet.");
         } else {
             for (Product product : products) {
                 if (product.getId() == id) {
@@ -110,15 +110,14 @@ public class ProductDaoImpl implements ProductDao {
                 }
             }
         }
-        throw new NoProductsException("The id provided doesn't match with any product loaded. Please try again.");
         System.out.println("The product couldn't be deleted.");
-        return false;
+        throw new NoProductsException("The id provided doesn't match with any product loaded. Please try again.");
     }
 
     @Override
     public Product updateProduct(int id, Product prod) throws NoProductsException {
         if(products.isEmpty()){
-            throw new NoProductsException("The product you are looking for doesn't exist, there are no products loaded yet.")
+            throw new NoProductsException("The product you are looking for doesn't exist, there are no products loaded yet.");
         } else {
             for (Product product : products) {
                 if (product.getId() == id) {
@@ -135,9 +134,8 @@ public class ProductDaoImpl implements ProductDao {
                 }
             }
         }
-        throw new NoProductsException("The id provided doesn't match with any product loaded. Please try again.");
         System.out.println("The product couldn't be updated, please try again.");
-        return prod;
+        throw new NoProductsException("The id provided doesn't match with any product loaded. Please try again.");
     }
 
     @Override
@@ -152,7 +150,7 @@ public class ProductDaoImpl implements ProductDao {
         System.out.println("Lista de productos " + products );
 
         if(products.isEmpty()){
-            throw new NoProductsException("The product you are looking for doesn't exist, there are no products loaded yet.")
+            throw new NoProductsException("The product you are looking for doesn't exist, there are no products loaded yet.");
         } else {
             for (Product product : products) {
                 System.out.println("Hola, entré al loop for.");
@@ -177,6 +175,6 @@ public class ProductDaoImpl implements ProductDao {
                 }
             }
         }
-        throw new NoProductsException("No products matching the filters provided where found, please try again.");        return null;
+        throw new NoProductsException("No products matching the filters provided where found, please try again.");
     }
 }
