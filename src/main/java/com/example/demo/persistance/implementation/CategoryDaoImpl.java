@@ -57,19 +57,21 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public Boolean deleteCategory(int id){
+
+        boolean categoryFound = false;
+
         if(categories.size() == 0) {
             System.out.println("The list of categories is empty, please create new categories before ordering them");
+            return false;
         } else {
             for (Category category : categories) {
                 if (category.getId() == id) {
                     categories.remove(category);
                     System.out.println("The Category id " + id + " was successfuly deleted.");
                     return true;
-                } else {
-                    System.out.println("Category not found.");
-                    return false;
                 }
             }
+            System.out.println("Category not found.");
         }
         return false;
     }
@@ -109,12 +111,11 @@ public class CategoryDaoImpl implements CategoryDao {
                     if (product.getBrand().equalsIgnoreCase(brand)) {
                         System.out.println("Products with brand: " + brand + " found.");
                         brandProducts.add(product);
-                        return brandProducts;
-                    } else {
-                        System.out.println("No products with brand: " + brand + " were found");
-                        return null;
                     }
                 }
+            }
+            if(brandProducts.isEmpty()) {
+                System.out.println("No products with brand: " + brand + " were found.");
             }
         }
         return null;
@@ -173,13 +174,14 @@ public class CategoryDaoImpl implements CategoryDao {
                         rangeProductsList.add(product);
                     }
                 }
-                Category priceRangeCategory = new Category(category.getId(), category.getName(), category.getDescription());
-                priceRangeCategory.setProductList(rangeProductsList);
-                results.add(priceRangeCategory);
-                System.out.println("This are the products in the range price of " + min + " and " + max + ".");
-                return results;
+                if(!rangeProductsList.isEmpty()) {
+                    Category priceRangeCategory = new Category(category.getId(), category.getName(), category.getDescription());
+                    priceRangeCategory.setProductList(rangeProductsList);
+                    results.add(priceRangeCategory);
+                    System.out.println("This are the products in the range price of " + min + " and " + max + ".");
+                }
             }
         }
-        return null;
+        return results;
     }
 }

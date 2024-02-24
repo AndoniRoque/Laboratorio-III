@@ -152,6 +152,7 @@ public class ProductDaoImpl implements ProductDao {
         if(products.isEmpty()){
             throw new NoProductsException("The product you are looking for doesn't exist, there are no products loaded yet.");
         } else {
+            boolean found = false;
             for (Product product : products) {
                 System.out.println("Hola, entré al loop for.");
                 if ((name == null || product.getName().equalsIgnoreCase(name))) {
@@ -161,20 +162,18 @@ public class ProductDaoImpl implements ProductDao {
                         if (category_name == null || product.getCategory().equalsIgnoreCase(category_name)) {
                             System.out.println("End of the line");
                             filteredProducts.add(product);
-                            System.out.println("Product found and added successfuly.");
-                            //return http reponse
-                            return filteredProducts;
-                        } else {
-                            throw new NoProductsException("There are no products in that category, please try again.");
+                            System.out.println("Product found and added successfully.");
+                            found = true;
                         }
-                    } else {
-                        throw new NoProductsException("There are no products with that brand, please try again.");
                     }
-                } else {
-                    throw new NoProductsException("There are no products with that name, please try again.");
                 }
             }
+            if (found) {
+                System.out.println("Product found and added successfully.");
+                return filteredProducts;
+            } else {
+                throw new NoProductsException("No products match the filters provided, please try again.");
+            }
         }
-        throw new NoProductsException("No products matching the filters provided where found, please try again.");
     }
 }
