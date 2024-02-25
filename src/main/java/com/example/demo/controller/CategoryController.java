@@ -33,6 +33,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Object> getAllCategories() {
+
         if (categoryService.getAllCategories().size() == 0) {
             return ResponseHandler.response(
                     HttpStatus.NO_CONTENT,
