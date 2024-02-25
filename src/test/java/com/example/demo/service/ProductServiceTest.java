@@ -67,8 +67,6 @@ public class ProductServiceTest {
 
         assertEquals(product, createProduct);
         verify(productDao, times(1)).createProduct(product);
-
-
     }
 
     @Test

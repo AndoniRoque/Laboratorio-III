@@ -25,11 +25,6 @@ public class PorductControllerTest {
     @InjectMocks
     private ProductController productController;
 
-//    @BeforeEach
-//    public void setUp() {
-//        MockitoAnnotations.initMocks(this);
-//    }
-
     @Test
     public void getProductByIdTest() throws NoProductsException {
 
