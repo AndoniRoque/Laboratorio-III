@@ -4,8 +4,12 @@ import com.example.demo.model.Product;
 import com.example.demo.persistance.exceptions.NoCategoryException;
 import com.example.demo.persistance.exceptions.NoProductsException;
 import com.example.demo.service.ProductService;
+import com.example.demo.util.ResponseHandler;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -21,8 +25,18 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts() throws NoProductsException {
-        return productService.getAllProducts();
+    public ResponseEntity<Object> getAllProducts() throws NoProductsException{
+        if (productService.getAllProducts().size() == 0) {
+            return ResponseHandler.response(
+                HttpStatus.NO_CONTENT,
+                productService.getAllProducts(), 
+                "No products created yet.");
+        } else {
+            return ResponseHandler.response(
+                HttpStatus.OK,
+                productService.getAllProducts(), 
+                "Categories retrived successfully.");
+        }
     }
     
     @PostMapping

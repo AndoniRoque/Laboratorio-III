@@ -43,14 +43,8 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> findAllProducts() throws NoProductsException {
-
-        if (products.size() == 0){
-            throw new NoProductsException("There are no products loaded yet.");
-        } else {
-            return products;
-        }
-
+    public List<Product> findAllProducts(){
+        return products;
     }
 
     @Override
