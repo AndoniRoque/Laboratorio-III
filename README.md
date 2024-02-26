@@ -1,8 +1,10 @@
 ﻿## Laboratorio de Computación III
 
 API REST desarrollada en Java con Spring-Boot.
-Cada producto creado debe pertenecer a una categoria por lo que es necesario crear una categoría ANTES de crear un producto. 
+Cada producto creado debe pertenecer a una categoria por lo que es necesario crear una categoría ANTES de crear un producto.
 
+Clonar el proyecto, navegar a la carpeta Laboratorio-III y correr el comando: mvn spring-boot:run.
+La api corre en localhost:8080
 
 # Categories
 · GET /categories ---> trae todas las categorías creadas.<br />
