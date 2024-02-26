@@ -15,15 +15,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class PorductControllerTest {
+
+public class ProductControllerTest {
     @Mock
     private ProductService productService;
 
     @InjectMocks
     private ProductController productController;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
 
     @Test
     public void getProductByIdTest() throws NoProductsException {
